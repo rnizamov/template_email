@@ -6,17 +6,25 @@
 /// @group typography
 ////
 
+/// Global font color.
+/// @type Color
+$global-font-color: $black !default;
+
+/// Global font family.
+/// @type Font
+$body-font-family: Helvetica, Arial, sans-serif !default;
+
 /// Global font weight.
 /// @type Keyword
 $global-font-weight: normal !default;
 
-/// Global font weight.
-/// @type Keyword
+/// Header color
+/// @type Color
 $header-color: inherit !default;
 
 /// Global line height.
 /// @type Number
-$global-line-height: 1.3 !default;
+$global-line-height: 130% !default;
 
 /// Font size of body text.
 /// @type Number
@@ -24,7 +32,7 @@ $global-font-size: 16px !default;
 
 /// Line height of body text.
 /// @type Number
-$body-line-height: 19px !default;
+$body-line-height: $global-line-height !default;
 
 /// Font family of headings.
 /// @type List
@@ -80,7 +88,7 @@ $lead-font-size: $global-font-size * 1.25 !default;
 
 /// Line height of lead paragraphs.
 /// @type Number
-$lead-line-height: 1.6 !default;
+$lead-line-height: 160% !default;
 
 /// Padding inside paragraphs.
 /// @type Number
@@ -112,7 +120,7 @@ $hr-width: $global-width !default;
 
 /// Default border for a divider.
 /// @type List
-$hr-border: 1px solid $medium-gray !default;
+$hr-border: 1px solid $black !default;
 
 /// Default margin for a divider.
 /// @type Number | List
@@ -142,6 +150,10 @@ $anchor-color-active: $anchor-color-hover !default;
 /// @type Number
 $stat-font-size: 40px !default;
 
+/// Removing the iOS telephone and address styling
+/// @type Boolean
+$remove-ios-blue: true !default;
+
 body,
 table.body,
 h1,
@@ -152,12 +164,14 @@ h5,
 h6,
 p,
 td,
-th,
-a {
+th {
   color: $global-font-color;
   font-family: $body-font-family;
   font-weight: $global-font-weight;
-  padding: 0;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
   margin: 0;
   Margin: 0;
   text-align: left;
@@ -238,7 +252,12 @@ small {
 
 a {
   color: $anchor-color;
-  text-decoration: none;
+  text-decoration: $anchor-text-decoration;
+  font-family: $body-font-family;
+  font-weight: $global-font-weight;
+  padding: 0;
+  text-align: left;
+  line-height: $global-line-height;
 
   &:hover {
     color: $anchor-color-hover;
@@ -289,17 +308,20 @@ pre {
 }
 
 // Horizontal rule
+table.hr {
+  width: 100%;
 
-hr {
-  max-width: $hr-width;
-  height: 0;
-  border-right: 0;
-  border-top: 0;
-  border-bottom: $hr-border;
-  border-left: 0;
-  margin: $hr-margin;
-  Margin: $hr-margin;
-  clear: both;
+  th {
+    height: 0;
+    max-width: $hr-width;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: $hr-border;
+    border-left: 0;
+    margin: $hr-margin;
+    Margin: $hr-margin;
+    clear: both;
+  }
 }
 
 // Use to style a large number to display a statistic
@@ -313,4 +335,31 @@ hr {
   }
 }
 
+// preheader styles
+span.preheader {
+  display: none !important;
+  visibility: hidden;
+  mso-hide: all !important;
+  font-size: 1px;
+  color: $body-background; // needs to match background color of it's container
+  line-height: 1px;
+  max-height: 0px;
+  max-width: 0px;
+  opacity: 0;
+  overflow: hidden;
+}
 
+// Removing the iOS colors put in for telephone and addresses
+@if $remove-ios-blue {
+  // Wrapping in a media only screen to have inline-css respect the styling
+  @media only screen {
+    a[x-apple-data-detectors] {
+      color: inherit !important;
+      text-decoration: none !important;
+      font-size: inherit !important;
+      font-family: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+    }
+  }
+}
